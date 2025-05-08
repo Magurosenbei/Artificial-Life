@@ -1,0 +1,245 @@
+Texture_Path = "Data/Textures/Chara2.png"
+EmoIcon_Path = "Data/Textures/Emo.png"
+
+dofile('Data/AI/Life Simulation/Gobal Constants.file')
+dofile('Data/AI/Life Simulation/StatChange.file')
+	
+function Stats()
+	Brain.Hunger.Value = 60
+	Brain.Energy.Value = 40
+	Brain.Hygiene.Value = 70
+	Brain.Boredom.Value = 60
+	Brain.Emotion = Emotion.NTH
+end
+
+function Behave()
+
+	local tempMsg = MailBox:READMSG(Brain.IC_NUMBER)
+	
+	
+	if Brain.Emotion == Emotion.NTH then
+		Brain.State = NOW_DOING.WALKING
+		Brain:GoTo(Home:GetPosition() + Vector(math.random(-100, 100) , math.random(-50, 50)))
+	end
+	
+	if Brain.Hygiene:GetTerm_Low() == 'EXTREME' then
+		Brain.Emotion = Emotion.URGENT
+		Brain:GoTo(Home:GetLocation('BATH'))
+		return	-- Skip all
+	end
+	
+	if Brain.Hunger:GetTerm_Low() == 'EXTREME' then
+		Brain.Emotion = Emotion.HUNGRY
+		Brain:GoTo(Home:GetLocation('KITCHEN'))
+		return -- Skip all
+	end
+	
+	ValueKEEP[1] = Brain.Energy:GetDegreeLow()
+	ValueKEEP[2] = Brain.Hunger:GetDegreeLow()
+	ValueKEEP[3] = Brain.Hygiene:GetDegreeLow()
+	ValueKEEP[4] = Brain.Boredom:GetDegreeLow()
+	
+	local Most = 0
+	local Id = -1
+	
+	for index = 1, 4, 1 do
+		if ValueKEEP[index] > 0 then DECIDE_GO[index] = 1
+		else DECIDE_GO[index] = 0 end
+		if ValueKEEP[index] > Most then 
+			Most = ValueKEEP[index]
+			Id = index
+		end
+	end
+	
+	if ValueKEEP[Id] > 0.5 then
+		DECIDE_GO[Id] = CheckProbability(Most * 85)
+	end
+	
+	
+	
+	if Id ~= 2 and Id ~= 3 then
+		if  GetTime().Hour >= 22 or GetTime().Hour < 4 then
+			Brain.Emotion = Emotion.SLEEPY
+			if Home:IsLocationFull('BED') then
+				Brain:GoTo(Home:GetLocation('BED2'))
+			else
+				Brain:GoTo(Home:GetLocation('BED'))
+			end
+			return
+		end
+	end
+	
+	if Most < 0.7 and CheckProbability(50) then
+		return
+	end
+	
+	if tempMsg.Affecting ~= Id and tempMsg.Affecting ~= 0 then
+		if ValueKEEP[Id] < ValueKEEP[tempMsg.Affecting] + 0.7 then
+			if CheckProbability((ValueKEEP[tempMsg.Affecting] + 0.7) * 100) then
+				Id = tempMsg.Affecting
+				DECIDE_GO[Id] = true
+			end
+		end
+	end
+	
+	if DECIDE_GO[Id] == false then
+		return
+	end
+
+	if Id == 1 then
+		Brain.Emotion = Emotion.TIRED
+		if Home:IsLocationFull('BED') then
+			Brain:GoTo(Home:GetLocation('BED2'))
+		else
+			Brain:GoTo(Home:GetLocation('BED'))
+		end
+	elseif Id == 2 then
+		Brain.Emotion = Emotion.HUNGRY
+		Brain:GoTo(Home:GetLocation('KITCHEN'))
+	elseif Id == 3 then
+		Brain.Emotion = Emotion.URGENT
+		Brain:GoTo(Home:GetLocation('BATH'))
+	else
+		if CheckProbability(ValueKEEP[Id] * 100)  then
+			Brain.Emotion = Emotion.FUN
+			Brain:GoTo(Home:GetLocation('COMPUTER'))
+		else
+			Brain.Emotion = Emotion.READ
+			Brain:GoTo(Home:GetLocation('STUDY'))
+		end
+	end
+end
+
+
+function Process()
+	if Brain.State == NOW_DOING.SLEEPING then
+		Sleep()
+	elseif Brain.State == NOW_DOING.RESTING then
+		Resting()
+	elseif Brain.State == NOW_DOING.BATHING then
+		Bathing()
+	elseif Brain.State == NOW_DOING.EATING then
+		Eating()
+	elseif Brain.State == NOW_DOING.PLAYING then
+		Playing()
+	elseif Brain.State == NOW_DOING.STUDYING then
+		Studying()
+	else
+		Wondering()
+	end
+end
+
+function D_CheckForState()
+	if Brain:At('BED') then
+		if Brain.Emotion == Emotion.SLEEPY then Brain.State = NOW_DOING.SLEEPING MailBox:PostMSG(Brain.IC_NUMBER, NOW_DOING.SLEEPING, 1) return
+		elseif Brain.Emotion == Emotion.TIRED then Brain.State = NOW_DOING.RESTING MailBox:PostMSG(Brain.IC_NUMBER, NOW_DOING.RESTING, 1) return end
+	end
+	
+	if Brain:At('BED2') then
+		if Brain.Emotion == Emotion.SLEEPY then Brain.State = NOW_DOING.SLEEPING MailBox:PostMSG(Brain.IC_NUMBER, NOW_DOING.SLEEPING, 1) return
+		elseif Brain.Emotion == Emotion.TIRED then Brain.State = NOW_DOING.RESTING MailBox:PostMSG(Brain.IC_NUMBER, NOW_DOING.RESTING, 1) return end
+	end
+	
+	if  Brain:At('BATH') then
+		if Brain.Emotion == Emotion.URGENT then Brain.State = NOW_DOING.BATHING MailBox:PostMSG(Brain.IC_NUMBER, NOW_DOING.BATHING, 3) return end
+	end
+	
+	if  Brain:At('KITCHEN') then
+		if Brain.Emotion == Emotion.HUNGRY then Brain.State = NOW_DOING.EATING MailBox:PostMSG(Brain.IC_NUMBER, NOW_DOING.EATING, 2) return end
+	end
+	
+	if  Brain:At('COMPUTER') then
+		if Brain.Emotion == Emotion.FUN then Brain.State = NOW_DOING.PLAYING MailBox:PostMSG(Brain.IC_NUMBER, NOW_DOING.PLAYING, 4) return end
+	end
+	
+	if  Brain:At('STUDY') then
+		if Brain.Emotion == Emotion.READ then Brain.State = NOW_DOING.STUDYING MailBox:PostMSG(Brain.IC_NUMBER, NOW_DOING.STUDYING, 5) return end
+	end
+end
+
+function DailySetting()
+	Brain.Hunger:Generate()
+	Brain.Energy:Generate()
+	Brain.Hygiene:Generate()
+	Brain.Boredom:Generate()
+end
+
+
+function Wondering()
+	ChangeEnergy(1, 3, -1)
+	ChangeHunger(1, 3, -1)
+	ChangeHygiene(1, 3, -1)
+	ChangeBoredom(1, 3, -1)
+end
+
+function Sleep()
+	if (not IsNightTime()) or (GetTime().Hour > 4 and GetTime().Hour < 12) then
+		if Brain.Energy:GetDegreeHigh() >= ValueKEEP[1] and CheckProbability(Brain.Energy:GetDegreeHigh() * 100) then
+			Brain:SetEmo(Emotion.NTH)
+		end
+	end
+	
+	if Brain.Energy:GetDegreeHigh() < 1 then
+		ChangeEnergy(9, 13, 1)
+	end
+	ChangeHunger(1, 4, -1)
+	ChangeHygiene(2, 5, -1)
+	ChangeBoredom(2, 4, -1)
+	
+end
+
+function Resting()
+	if Brain.Energy:GetDegreeHigh() >= ValueKEEP[1] and CheckProbability(Brain.Energy:GetDegreeHigh() * 100) then
+		Brain:SetEmo(Emotion.NTH)
+	end
+	if Brain.Energy:GetDegreeHigh() < 1 then
+		ChangeEnergy(9, 14, 1)
+	end
+	ChangeHunger(1, 3, -1)
+	ChangeHygiene(2, 5, -1)
+	ChangeBoredom(4, 8, -1)
+end
+
+function Bathing()
+	if Brain.Hygiene:GetDegreeHigh() >=  ValueKEEP[3] and CheckProbability(Brain.Hygiene:GetDegreeHigh() * 100) then
+		Brain:SetEmo(Emotion.NTH)
+	else
+		ChangeEnergy(1, 2, -1)
+		ChangeHunger(1, 3, -1)
+		ChangeHygiene(14, 17, 1)
+		ChangeBoredom(0, 4, -1)
+	end
+end
+
+function Eating()
+	if Brain.Hunger:GetDegreeHigh() >=  ValueKEEP[2] and CheckProbability(Brain.Hunger:GetDegreeHigh() * 100) then
+		Brain:SetEmo(Emotion.NTH)
+	else
+		ChangeEnergy(1, 3, -1)
+		ChangeHunger(10, 18, 1)
+		ChangeHygiene(2, 3, -1)
+		ChangeBoredom(2, 3, -1)
+	end
+end
+
+function Playing()
+	if Brain.Boredom:GetDegreeHigh() >=  ValueKEEP[4] and CheckProbability(Brain.Boredom:GetDegreeHigh() * 100) then
+		Brain:SetEmo(Emotion.NTH)
+	else
+		ChangeEnergy(2, 3, -1)
+		ChangeHunger(0, 3, -1)
+		ChangeHygiene(0, 3, -1)
+		ChangeBoredom(13, 23, 1)
+	end
+end
+
+function Studying()
+	if Brain.Boredom:GetDegreeHigh() >=  ValueKEEP[4] and CheckProbability(Brain.Boredom:GetDegreeHigh() * 100) then
+		Brain:SetEmo(Emotion.NTH)
+	else
+		ChangeEnergy(0, 2, -1)
+		ChangeHunger(0, 2, -1)
+		ChangeHygiene(0, 1, -1)
+		ChangeBoredom(6, 13, 1)
+	end
+end

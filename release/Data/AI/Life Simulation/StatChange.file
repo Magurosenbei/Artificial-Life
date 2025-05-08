@@ -1,0 +1,21 @@
+--Whole Bunch of +/- of stats to simply the brain file
+
+function ChangeEnergy(min, max, factor)
+	Brain.Energy.Value = Brain.Energy.Value + (factor * math.random(min, max))
+	if Brain.Energy.Value < 0 then Brain.Energy.Value = 0 end
+end
+
+function ChangeHunger(min, max, factor)
+	Brain.Hunger.Value = Brain.Hunger.Value + (factor * math.random(min, max))
+	if Brain.Hunger.Value < 0 then Brain.Hunger.Value = 0 end
+end	
+
+function ChangeHygiene(min, max, factor)
+	Brain.Hygiene.Value = Brain.Hygiene.Value + (factor * math.random(min, max))
+	if Brain.Hygiene.Value < 0 then Brain.Hygiene.Value = 0 end
+end
+
+function ChangeBoredom(min, max, factor)	
+	Brain.Boredom.Value = Brain.Boredom.Value + (factor * math.random(min, max))
+	if Brain.Boredom.Value < 0 then Brain.Boredom.Value = 0 end
+end

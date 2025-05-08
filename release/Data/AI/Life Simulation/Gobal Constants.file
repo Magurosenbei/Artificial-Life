@@ -1,0 +1,12 @@
+--DECALRE ALL CONSTANTS HERE
+
+-- Declare Sprite Use here(add on depending on how the sprite is arranged.)
+Emotion = {CALL = 0, HUNGRY = 1, READ = 2, URGENT = 3, NTH = 4, SLEEPY = 5, TIRED = 6, FUN = 7, WAIT = 8}
+-- To Set correct Emoicon use StatSig['HUNGER'] + Emotion.BORED
+
+-- States of what the character is doing TO MOVE NEED -1
+NOW_DOING = {WALKING = -1, EATING = 0, BATHING = 1, PLAYING = 2, STUDYING = 3, NIL = 4, SLEEPING = 5, RESTING = 6, WAITING = 7}
+
+
+DECIDE_GO = {0,0,0,0}
+ValueKEEP = {0,0,0,0}

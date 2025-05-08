@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="shift_jis"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="Standard Frame"
+	ProjectGUID="{D3BB9074-6CA9-486C-9033-AEE93F17DD4B}"
+	RootNamespace="StandardFrame"
+	Keyword="Win32Proj"
+	>
+	<Platforms>
+		<Platform
+			Name="Win32"
+		/>
+	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="1"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="./Source Code; ./Source Code/tbb; ./Source Code/Lua; ./Source Code/Luabind; ./Source Code/il; ./Source Code/OpenGl; ./Source Code/Boost;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
+				StringPooling="true"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				FloatingPointModel="2"
+				UsePrecompiledHeader="1"
+				WarningLevel="4"
+				WarnAsError="true"
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="4"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="lib/Debug/lua.debug.lib lib/Debug/luabind.debug.lib lib/Debug/tbb_debug.lib lib/Debug/tbbmalloc_debug.lib opengl32.lib glu32.lib winmm.lib odbc32.lib odbccp32.lib"
+				LinkIncremental="2"
+				IgnoreDefaultLibraryNames="LIBC.lib"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="1"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="./Source Code; ./Source Code/tbb; ./Source Code/Lua; ./Source Code/Luabind;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="0"
+				WarningLevel="4"
+				WarnAsError="true"
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="lib/Release/lua.release.lib lib/Release/luabind.release.lib lib/Release/tbb.lib lib/Release/tbbmalloc_release.lib opengl32.lib glu32.lib"
+				LinkIncremental="1"
+				IgnoreDefaultLibraryNames="LIBC.lib"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<Filter
+			Name="Source Code"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
+			<Filter
+				Name="Layer"
+				>
+				<Filter
+					Name="Interface"
+					>
+					<File
+						RelativePath=".\Source Code\Interface\Font.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Source Code\Interface\Font.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Camera"
+					>
+					<File
+						RelativePath=".\Source Code\Camera\camera.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Source Code\Camera\camera.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Engine"
+					>
+					<File
+						RelativePath=".\Source Code\Engine\engine.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Source Code\Engine\engine.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Common Access"
+				>
+				<File
+					RelativePath=".\Source Code\stdafx.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source Code\stdafx.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source Code\Vector3D.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source Code\Vector3D.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Background"
+				>
+				<Filter
+					Name="RenderMain"
+					>
+					<File
+						RelativePath=".\Source Code\RenderMain\RenderMain.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="WinMain"
+					>
+					<File
+						RelativePath=".\Source Code\WinMain\WinMain.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Source Code\WinMain\WinMain.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Texture"
+					>
+					<File
+						RelativePath=".\Source Code\Texture\texture.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Source Code\Texture\texture.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Life Simulation"
+				>
+				<File
+					RelativePath=".\Source Code\Object\MessageBoard.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source Code\Object\MessageBoard.h"
+					>
+				</File>
+				<Filter
+					Name="House"
+					>
+					<File
+						RelativePath=".\Source Code\Object\house.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Source Code\Object\house.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Location"
+					>
+					<File
+						RelativePath=".\Source Code\Object\location.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Source Code\Object\location.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Character"
+					>
+					<File
+						RelativePath=".\Source Code\Object\Chara.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Source Code\Object\Chara.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Timer"
+					>
+					<File
+						RelativePath=".\Source Code\TTimer.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Source Code\TTimer.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
+			<File
+				RelativePath=".\Source Code\il\config.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source Code\il\devil_internal_exports.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source Code\il\il.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source Code\il\ilu.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source Code\il\ilu_region.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source Code\Structure.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source Code\Structure.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			>
+			<File
+				RelativePath=".\Resource\Resource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Resource\small.ico"
+				>
+			</File>
+			<File
+				RelativePath=".\Resource\Standard Frame.ico"
+				>
+			</File>
+			<File
+				RelativePath=".\Resource\Standard Frame.rc"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Lib"
+			>
+			<File
+				RelativePath=".\lib\DevIL.lib"
+				>
+			</File>
+			<File
+				RelativePath=".\lib\GLee.lib"
+				>
+			</File>
+			<File
+				RelativePath=".\lib\ILU.lib"
+				>
+			</File>
+			<File
+				RelativePath=".\lib\ILUT.lib"
+				>
+			</File>
+		</Filter>
+		<File
+			RelativePath=".\VTune\Standard Frame.vpj"
+			>
+		</File>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

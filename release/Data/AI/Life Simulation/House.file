@@ -1,0 +1,10 @@
+House.Position = Vector(0, 0)
+Texture_Path = "Data/Textures/House/Floor.png"
+
+
+House:AddLocation("Data/Textures/House/bed_1.png",		Vector(220, 100),	'BED', 1)
+House:AddLocation("Data/Textures/House/bed_2.png",		Vector(220, -100),	'BED2', 1)
+House:AddLocation("Data/Textures/House/restroom.png",	Vector(-207, 90),	'BATH', 1)
+House:AddLocation("Data/Textures/House/kitchen.png",	Vector(-225, -15),	'KITCHEN', 2)
+House:AddLocation("Data/Textures/House/study.png",		Vector(42, 95),		'STUDY', 2)
+House:AddLocation("Data/Textures/House/computer.png",	Vector(-88, 106),	'COMPUTER', 2)
